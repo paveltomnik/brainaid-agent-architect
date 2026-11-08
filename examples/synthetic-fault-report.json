@@ -1,0 +1,77 @@
+{
+  "scope": "offline mock only",
+  "results": [
+    {
+      "scenario": "invalid-json",
+      "pass": true,
+      "detail": "Malformed model output blocked; no external side effects",
+      "environment": "OFFLINE_SIMULATION"
+    },
+    {
+      "scenario": "rate-limit",
+      "pass": true,
+      "detail": "429 increased only technical retry counter",
+      "environment": "OFFLINE_SIMULATION"
+    },
+    {
+      "scenario": "max-generations",
+      "pass": true,
+      "detail": "Total generations stopped at 3 (initial + 2 revisions)",
+      "environment": "OFFLINE_SIMULATION"
+    },
+    {
+      "scenario": "restart",
+      "pass": true,
+      "detail": "SQLite checkpoint survived reopen with counters and pause status",
+      "environment": "OFFLINE_SIMULATION"
+    },
+    {
+      "scenario": "lost-ack",
+      "pass": true,
+      "detail": "Remote effect confirmed via operation key after missing acknowledgement; no blind retry",
+      "environment": "OFFLINE_SIMULATION"
+    },
+    {
+      "scenario": "duplicate-webhook",
+      "pass": true,
+      "detail": "Two deliveries produced one synthetic external effect",
+      "environment": "OFFLINE_SIMULATION"
+    },
+    {
+      "scenario": "no-progress",
+      "pass": true,
+      "detail": "Two stagnant quality rounds escalated; best-so-far score preserved",
+      "environment": "OFFLINE_SIMULATION"
+    },
+    {
+      "scenario": "max-total-steps",
+      "pass": true,
+      "detail": "Global step guard stopped execution at 5 simulated steps",
+      "environment": "OFFLINE_SIMULATION"
+    },
+    {
+      "scenario": "stale-approval",
+      "pass": true,
+      "detail": "Approval for v2 did not authorize modified v3; no external effect",
+      "environment": "OFFLINE_SIMULATION"
+    },
+    {
+      "scenario": "optimistic-lock",
+      "pass": true,
+      "detail": "Optimistic version check prevented lost update from a stale worker",
+      "environment": "OFFLINE_SIMULATION"
+    },
+    {
+      "scenario": "budget-precheck",
+      "pass": true,
+      "detail": "Estimated next call exceeded remaining budget and was not started",
+      "environment": "OFFLINE_SIMULATION"
+    },
+    {
+      "scenario": "ambiguous-publish",
+      "pass": true,
+      "detail": "Unknown external outcome remained pending; blind resend was prohibited",
+      "environment": "OFFLINE_SIMULATION"
+    }
+  ]
+}

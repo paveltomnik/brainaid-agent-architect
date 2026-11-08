@@ -1,0 +1,35 @@
+{
+  "name": "brainaid-content-pipeline",
+  "start": "start",
+  "end": "END",
+  "nodes": [
+    {"id": "start", "type": "START"},
+    {"id": "generate", "type": "LLM_GENERATOR"},
+    {"id": "validate", "type": "DETERMINISTIC_VALIDATOR"},
+    {"id": "judge", "type": "LLM_CRITIC"},
+    {"id": "guard", "type": "ROUTER"},
+    {"id": "approve", "type": "HUMAN_APPROVAL"},
+    {"id": "publish", "type": "EXTERNAL_ACTION"},
+    {"id": "escalate", "type": "ERROR_HANDLER"},
+    {"id": "END", "type": "END"}
+  ],
+  "edges": [
+    {"from": "start", "to": "generate", "on": "START"},
+    {"from": "generate", "to": "validate", "on": "GENERATED"},
+    {"from": "validate", "to": "judge", "on": "VALID"},
+    {"from": "validate", "to": "guard", "on": "INVALID"},
+    {"from": "judge", "to": "approve", "on": "PASS"},
+    {"from": "judge", "to": "guard", "on": "REVISE"},
+    {"from": "guard", "to": "generate", "on": "RETRY_AND_BUDGET_AVAILABLE"},
+    {"from": "guard", "to": "escalate", "on": "LIMIT_REACHED"},
+    {"from": "approve", "to": "publish", "on": "VALID_VERSIONED_APPROVAL"},
+    {"from": "approve", "to": "escalate", "on": "REJECT_OR_EXPIRED"},
+    {"from": "publish", "to": "END", "on": "CONFIRMED_EXTERNAL_ID"},
+    {"from": "publish", "to": "escalate", "on": "UNKNOWN_REQUIRES_RECONCILIATION"},
+    {"from": "escalate", "to": "END", "on": "ESCALATED"}
+  ],
+  "state_fields": ["run_id", "status", "state_version", "total_steps", "generation_count", "artifact_version", "artifact_hash", "llm_calls", "last_error"],
+  "guards": {"max_total_steps": 25, "max_llm_calls": 12, "max_generations": 3, "deadline_seconds": 300, "max_cost_usd": 2.0},
+  "approval": {"required_nodes": ["publish"], "artifact_hash_binding": true},
+  "external_actions": [{"node": "publish", "idempotency_key": true, "reconcile_unknown": true, "requires_approval": true}]
+}

@@ -1,0 +1,9 @@
+{
+  "start": "start",
+  "end": "END",
+  "nodes": [{"id": "start", "type": "START"}, {"id": "loop", "type": "LLM_GENERATOR"}, {"id": "END", "type": "END"}],
+  "edges": [{"from": "start", "to": "loop", "on": "ALWAYS"}, {"from": "loop", "to": "loop", "on": "ALWAYS"}],
+  "state_fields": ["run_id"],
+  "guards": {},
+  "external_actions": []
+}
